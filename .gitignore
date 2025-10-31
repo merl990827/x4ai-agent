@@ -1,0 +1,42 @@
+# Node/Bun basics
+node_modules/
+.pnp*
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Bun cache/artifacts
+.bun/
+.cache/
+
+# TypeScript
+*.tsbuildinfo
+dist/
+build/
+out/
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test/coverage
+coverage/
+.nyc_output/
+jest-cache/
+playwright-report/
+test-results/
+
+# Misc
+.eslintcache
+.turbo/
+.vercel/
+.netlify/
