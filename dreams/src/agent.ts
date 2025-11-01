@@ -71,7 +71,7 @@ const brainstormingFlow = flow<{ topic: string }>()
 
 const { app, addEntrypoint } = createAgentApp(
   {
-    name: "ax-flow-agent",
+    name: "x4ai",
     version: "0.0.1",
     description:
       "Demonstrates driving an AxFlow pipeline through createAxLLMClient.",
