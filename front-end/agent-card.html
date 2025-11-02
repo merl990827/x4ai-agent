@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#f5f6f8" />
+    <title>x4ai</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="x4ai.jpg">
+  </head>
+  <body>
+    <main>
+      
+      <section class="example-section">
+        <h2>Agent Manifest</h2>
+        <p>agent-card.json</p>
+        <pre>{
+  "schema_version": "1.0.0",
+  "id": "x4ai-agent",
+  "name": "x4ai",
+  "description": "A modular, autonomous AI agent built on the x402 protocol. Designed for intelligent automation, decentralized computation, and agentic interoperability.",
+  "url": "https://ax-flow-agent-production.up.railway.app/",
+  "version": "0.0.1",
+  "author": {
+    "name": "merl990827",
+    "github": "https://github.com/merl990827/x4ai-agent",
+    "website": "https://x4ai.org"
+  },
+  "network": "x402",
+  "monetization": {
+    "enabled": true,
+    "currency": "x402",
+    "chain": "base-sepolia",
+    "pricing": {
+      "invoke": 1000
+    }
+  },
+  "capabilities": ["inference", "payments", "router-compatible"],
+  "links": {
+    "homepage": "https://x4ai.org",
+    "repository": "https://github.com/merl990827/x4ai-agent",
+    "router": "https://router.x402scan.org"
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": true,
+    "extensions": [
+      {
+        "uri": "https://github.com/google-agentic-commerce/ap2/tree/v0.1",
+        "description": "Agent Payments Protocol (AP2)",
+        "required": true,
+        "params": {
+          "roles": ["merchant"]
+        }
+      }
+    ]
+  },
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json", "text/plain"],
+  "skills": [
+    {
+      "id": "brainstorm",
+      "name": "brainstorm",
+      "description": "Summarise a topic and suggest three follow-up ideas using AxFlow.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json", "text/plain"],
+      "streaming": false,
+      "x_input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "topic": {
+            "description": "High level topic to explore.",
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": ["topic"],
+        "additionalProperties": false
+      },
+      "x_output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "summary": { "type": "string" },
+          "ideas": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["summary", "ideas"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "dex-price",
+      "name": "dex-price",
+      "description": "Get the latest USD price for a token via Dexscreener (by address or search query).",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json", "text/plain"],
+      "streaming": false,
+      "x_input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "tokenAddress": {
+            "description": "EVM token contract address (0x...).",
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$"
+          },
+          "query": {
+            "description": "Free-text search (symbol/name/pair).",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x_output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "priceUsd": { "description": "Price in USD for the selected pair.", "type": "number" },
+          "chainId": { "type": "string" },
+          "pairAddress": { "type": "string" },
+          "dexId": { "type": "string" },
+          "tokenSymbol": { "type": "string" },
+          "baseTokenAddress": { "type": "string" },
+          "url": { "type": "string" },
+          "note": { "type": "string" }
+        },
+        "required": ["priceUsd"],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "supportsAuthenticatedExtendedCard": false,
+  "entrypoints": {
+    "brainstorm": {
+      "description": "Summarise a topic and suggest three follow-up ideas using AxFlow.",
+      "streaming": false,
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "topic": {
+            "description": "High level topic to explore.",
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": ["topic"],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "summary": { "type": "string" },
+          "ideas": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["summary", "ideas"],
+        "additionalProperties": false
+      },
+      "pricing": { "invoke": 1000 }
+    },
+    "dex-price": {
+      "description": "Get the latest USD price for a token via Dexscreener (by address or search query).",
+      "streaming": false,
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "tokenAddress": {
+            "description": "EVM token contract address (0x...).",
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$"
+          },
+          "query": {
+            "description": "Free-text search (symbol/name/pair).",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "priceUsd": { "description": "Price in USD for the selected pair.", "type": "number" },
+          "chainId": { "type": "string" },
+          "pairAddress": { "type": "string" },
+          "dexId": { "type": "string" },
+          "tokenSymbol": { "type": "string" },
+          "baseTokenAddress": { "type": "string" },
+          "url": { "type": "string" },
+          "note": { "type": "string" }
+        },
+        "required": ["priceUsd"],
+        "additionalProperties": false
+      },
+      "pricing": { "invoke": 1000 }
+    }
+  },
+  "payments": [
+    {
+      "method": "x402",
+      "payee": "0xf46ab190223ccc95b73bacb72181d5a28f8ef67b",
+      "network": "base-sepolia",
+      "endpoint": "https://facilitator.daydreams.systems",
+      "priceModel": { "default": 1000 },
+      "extensions": {
+        "x402": {
+          "facilitatorUrl": "https://facilitator.daydreams.systems"
+        }
+      }
+    }
+  ]
+  "license": "MIT"
+}</pre>
+      </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+  </body>
+</html>

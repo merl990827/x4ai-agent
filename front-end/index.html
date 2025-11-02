@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#f5f6f8" />
+    <title>x4ai</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="x4ai.jpg">
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="hero-header">
+          <div class="hero-logo" aria-hidden="true">
+            <svg width="295" height="302" viewBox="0 0 295 302" xmlns="http://www.w3.org/2000/svg">
+              <image 
+                href="x4ai.jpg" 
+                width="295" 
+                height="302" 
+                preserveAspectRatio="xMidYMid meet" 
+              />
+            </svg>
+          </div>
+          <div class="hero-meta">
+            <h1>x4ai</h1>
+            <p>Demonstrates driving an AxFlow pipeline through createAxLLMClient.</p>
+          </div>
+        </div>
+        <ul class="hero-stats">
+          <li>
+            <span class="stat-value">2</span>
+            <span class="stat-label">Entrypoints</span>
+          </li>
+          <li>
+            <span class="stat-value">v0.0.1</span>
+            <span class="stat-label">Version</span>
+          </li>
+          <li>
+            <span class="stat-value">Monetized</span>
+            <span class="stat-label">Payments</span>
+          </li>
+        </ul>
+        <div class="hero-actions">
+          <a class="button" href="agent-card.html">
+            <span>View Agent Manifest</span>
+          </a>
+          <a class="button button--outline" href="https://github.com/merl990827/x4ai-agent" target="_blank" rel="noopener noreferrer">
+            <span>GitHub Repo</span>
+          </a>
+          <a class="button button--outline" href="https://router.daydreams.systems" target="_blank" rel="noopener noreferrer">
+            <span>Router</span>
+          </a>
+          <a class="button button--outline" href="https://x.com/x4ai_org" target="_blank" rel="noopener noreferrer">
+            <span>Twitter</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="entrypoints">
+        <header>
+          <h2>Entrypoints</h2>
+          <p>Explore the capabilities exposed by this agent. Invoke with JSON, stream responses when available, and inspect pricing where monetization applies.</p>
+        </header>
+        <div class="entrypoint-grid">
+          <article class="entrypoint-card">
+            <header>
+              <h3>brainstorm</h3>
+              <span class="badge">Invoke</span>
+            </header>
+            <p>Summarise a topic and suggest three follow-up ideas using AxFlow.</p>
+            <div class="card-meta">
+              <div class="meta-item">
+                <span class="meta-label">Pricing</span>
+                <span class="meta-value">Invoke: 1000</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Network</span>
+                <span class="meta-value">base-sepolia</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Invoke Endpoint</span>
+                <span class="meta-value"><code>POST /entrypoints/brainstorm/invoke</code></span>
+              </div>
+            </div>
+            <div class="schema-section">
+              <details class="schema-block" open>
+                <summary>Input Schema</summary>
+                <pre>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "topic": {
+      "description": "High level topic to explore.",
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": ["topic"],
+  "additionalProperties": false
+}</pre>
+              </details>
+              <details class="schema-block">
+                <summary>Output Schema</summary>
+                <pre>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "ideas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["summary", "ideas"],
+  "additionalProperties": false
+}</pre>
+              </details>
+              <details class="schema-block">
+                <summary>Invoke with curl</summary>
+                <pre>curl -s -X POST \
+  'http://ax-flow-agent-production.up.railway.app/entrypoints/brainstorm/invoke' \
+  -H 'Content-Type: application/json' \
+  -d '
+    {
+      "input": {
+        "topic": "string"
+      }
+    }
+  '</pre>
+              </details>
+            </div>
+          </article>
+          
+          <article class="entrypoint-card">
+            <header>
+              <h3>dex-price</h3>
+              <span class="badge">Invoke</span>
+            </header>
+            <p>Get the latest USD price for a token via Dexscreener (by address or search query).</p>
+            <div class="card-meta">
+              <div class="meta-item">
+                <span class="meta-label">Pricing</span>
+                <span class="meta-value">Invoke: 1000</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Network</span>
+                <span class="meta-value">base-sepolia</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Invoke Endpoint</span>
+                <span class="meta-value"><code>POST /entrypoints/dex-price/invoke</code></span>
+              </div>
+            </div>
+            <div class="schema-section">
+              <details class="schema-block" open>
+                <summary>Input Schema</summary>
+                <pre>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "tokenAddress": {
+      "description": "EVM token contract address (0x...).",
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$"
+    },
+    "query": {
+      "description": "Free-text search (symbol/name/pair).",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}</pre>
+              </details>
+              <details class="schema-block">
+                <summary>Output Schema</summary>
+                <pre>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "priceUsd": {
+      "description": "Price in USD for the selected pair.",
+      "type": "number"
+    },
+    "chainId": {
+      "type": "string"
+    },
+    "pairAddress": {
+      "type": "string"
+    },
+    "dexId": {
+      "type": "string"
+    },
+    "tokenSymbol": {
+      "type": "string"
+    },
+    "baseTokenAddress": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "required": ["priceUsd"],
+  "additionalProperties": false
+}</pre>
+              </details>
+              <details class="schema-block">
+                <summary>Invoke with curl</summary>
+                <pre>curl -s -X POST \
+  'http://ax-flow-agent-production.up.railway.app/entrypoints/dex-price/invoke' \
+  -H 'Content-Type: application/json' \
+  -d '
+    {
+      "input": {
+        "tokenAddress": "string",
+        "query": "string"
+      }
+    }
+  '</pre>
+              </details>
+            </div>
+          </article>
+        </div>
+      </section>
+      
+      <section class="example-section">
+        <h2>Client Example: x402-fetch</h2>
+        <p>Use the <code>x402-fetch</code> helpers to wrap a standard <code>fetch</code> call and automatically attach payments. This script loads configuration from <code>.env</code>, pays the facilitator, and logs both the response body and the decoded payment receipt.</p>
+        <pre>import { config } from "dotenv";
+import {
+  decodeXPaymentResponse,
+  wrapFetchWithPayment,
+  createSigner,
+  type Hex,
+} from "x402-fetch";
+
+config();
+
+const privateKey = process.env.PRIVATE_KEY as Hex | string;
+const baseURL = process.env.RESOURCE_SERVER_URL as string;
+const endpointPath = process.env.ENDPOINT_PATH as string;
+const url = `${baseURL}${endpointPath}`;
+
+if (!baseURL || !privateKey || !endpointPath) {
+  console.error("Missing required environment variables");
+  process.exit(1);
+}
+
+async function main(): Promise&lt;void&gt; {
+  const signer = await createSigner("base-sepolia", privateKey);
+  const fetchWithPayment = wrapFetchWithPayment(fetch, signer);
+
+  const response = await fetchWithPayment(url, { method: "GET" });
+  const body = await response.json();
+  console.log(body);
+
+  const paymentResponse = decodeXPaymentResponse(
+    response.headers.get("x-payment-response")!
+  );
+  console.log(paymentResponse);
+}
+
+main().catch((error) =&gt; {
+  console.error(error?.response?.data?.error ?? error);
+  process.exit(1);
+});</pre>
+      </section>
+      
+      <footer class="footer">
+        <span>Powered by @lucid/agent-kit</span>
+        <div class="footer-links">
+          <a href="https://github.com/merl990827/x4ai-agent" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://router.daydreams.systems" target="_blank" rel="noopener noreferrer">router.daydreams.systems</a>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+
+  </body>
+</html>
